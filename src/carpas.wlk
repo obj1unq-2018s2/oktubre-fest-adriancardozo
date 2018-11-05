@@ -27,10 +27,11 @@ class Persona {
 	var property nivelDeAguante = 0
 	method estaEbria() = (self.cantidadDeAlcoholIngerido() * peso) > nivelDeAguante	
 	method cantidadDeAlcoholIngerido() = jarrasCompradas.sum { jarra => jarra.cantidadDeAlcohol() }
-	method esEbrioEmpedernido() = jarrasCompradas.all { jarra => jarra.capacidad() >= 1 }
+	method esEbrioEmpedernido() = self.estaEbria() and jarrasCompradas.all { jarra => jarra.capacidad() >= 1 }
 }
 
 class Belga inherits Persona{
+	method nacionalidad() = "Belgica"
 	method leGusta(marca) = marca.gramosDeLupuloPorLitro() > 4
 	method quiereEntrarA(carpa) = self.leGusta(carpa.marcaCerveza()) and carpa.cumplePreferenciaMusicalDe(self) 
 	method puedeEntrarA(carpa) = self.quiereEntrarA(carpa) and carpa.dejaEntrarA(self)
@@ -42,9 +43,11 @@ class Belga inherits Persona{
 			self.error("La persona no puede entrar a la carpa")
 		}
 	}
+	method esPatriota() = jarrasCompradas.all { jarra => jarra.marcaCerveza().pais() == self.nacionalidad() }
 }
 
 class Checo inherits Persona{
+	method nacionalidad() = "Republica Checa"
 	method leGusta(marca) = marca.porcentajeDeGraduacion() > 0.08
 	method quiereEntrarA(carpa) = self.leGusta(carpa.marcaCerveza()) and carpa.cumplePreferenciaMusicalDe(self) 
 	method puedeEntrarA(carpa) = self.quiereEntrarA(carpa) and carpa.dejaEntrarA(self)
@@ -56,9 +59,11 @@ class Checo inherits Persona{
 			self.error("La persona no puede entrar a la carpa")
 		}
 	}
+	method esPatriota() = jarrasCompradas.all { jarra => jarra.marcaCerveza().pais() == self.nacionalidad() }
 }
 
 class Aleman inherits Persona{
+	method nacionalidad() = "Alemania"
 	method leGusta(marca) = true
 	method quiereEntrarA(carpa) = self.leGusta(carpa.marcaCerveza()) and carpa.cumplePreferenciaMusicalDe(self) and carpa.cantidadDePersonas().even()
 	method puedeEntrarA(carpa) = self.quiereEntrarA(carpa) and carpa.dejaEntrarA(self)
@@ -70,11 +75,12 @@ class Aleman inherits Persona{
 			self.error("La persona no puede entrar a la carpa")
 		}
 	}
+	method esPatriota() = jarrasCompradas.all { jarra => jarra.marcaCerveza().pais() == self.nacionalidad() }
 }
 
 class Marca {
 	var property gramosDeLupuloPorLitrto = 0
-	var pais
+	var property pais
 }
 
 class MarcaRubia inherits Marca {

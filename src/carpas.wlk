@@ -13,6 +13,7 @@ class Carpa {
 	method cantidadDeEbriosEmpedernidos() = personas.count { persona => persona.esEbrioEmpedernido() }
 }
 
+
 class Jarra {
 	var property capacidad = 0
 	var property marcaCerveza
